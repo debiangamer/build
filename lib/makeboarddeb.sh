@@ -222,6 +222,9 @@ create_board_package()
       cp /usr/share/armbian/armbianEnv.txt /boot  >/dev/null 2>&1
       echo "rootdev="\$rootdev >> /boot/armbianEnv.txt
       echo "rootfstype="\$rootfstype >> /boot/armbianEnv.txt
+	  echo "load_addr\ \"0x11000000\"" >> /boot/armbianEnv.txt
+	  echo "initrd_loadaddr\ \"0x13000000\" >> /boot/armbianEnv.txt
+	  echo "bootargs\ \"root=LABEL=ROOTFS rootflags=data=writeback rw ${condev} fsck.repair=yes net.ifnames=0 mac=${mac} init=/lib/systemd/systemd console=hvc0 console=ttyS0\"" >> /boot/armbianEnv.txt
     fi
 
     [ -f /boot/boot.ini ] && sed -i "s/setenv rootdev.*/setenv rootdev \\"\$rootdev\\"/" /boot/boot.ini
