@@ -98,13 +98,20 @@ if test -e ${devtype} ${devnum} ${prefix}zImage; then
 	if test "${bootlogo}" = "true"; then setenv consoleargs "bootsplash.bootfile=bootsplash.armbian ${consoleargs}"; fi
 
 	setenv bootargs "root=${rootdev} rootwait rootfstype=${rootfstype} ${consoleargs} consoleblank=0 coherent_pool=2M loglevel=${verbosity} ${amlogic} no_console_suspend fsck.repair=yes net.ifnames=0 elevator=noop hdmimode=${hdmimode} cvbsmode=576cvbs max_freq_a55=${max_freq_a55} maxcpus=${maxcpus} voutmode=${voutmode} ${cmode} disablehpd=${disablehpd} cvbscable=${cvbscable} overscan=${overscan} ${hid_quirks} monitor_onoff=${monitor_onoff} ${cec_enable} sdrmode=${sdrmode}"
-
+     
 	load ${devtype} ${devnum} ${k_addr} boot/zImage
-	load ${devtype} ${devnum} ${dtb_loadaddr} boot/dtb/amlogic/meson64_odroidc4.dtb
+	load ${devtype} ${devnum} ${dtb_loadaddr} boot/dtb/amlogic/meson-gxm-q200.dtb
 	load ${devtype} ${devnum} ${initrd_loadaddr} boot/uInitrd
 	fdt addr ${dtb_loadaddr}
 	unzip ${k_addr} ${loadaddr}
-	booti ${loadaddr} ${initrd_loadaddr} ${dtb_loadaddr}
+# booti ${loadaddr} ${initrd_loadaddr} ${dtb_loadaddr}
+    setenv boot_start booti ${load_addr} ${initrd_loadaddr} ${dtb_mem_addr}
+    if fatload usb 0 ${initrd_loadaddr} uInitrd; then if fatload usb 0 ${load_addr} zImage; then if fatload usb 0 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
+    if fatload usb 1 ${initrd_loadaddr} uInitrd; then if fatload usb 1 ${load_addr} zImage; then if fatload usb 1 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
+    if fatload usb 2 ${initrd_loadaddr} uInitrd; then if fatload usb 2 ${load_addr} zImage; then if fatload usb 2 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
+    if fatload usb 3 ${initrd_loadaddr} uInitrd; then if fatload usb 3 ${load_addr} zImage; then if fatload usb 3 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
+    if fatload mmc 0 ${initrd_loadaddr} uInitrd; then if fatload mmc 0 ${load_addr} zImage; then if fatload mmc 0 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
+
 else
 	# modern kernel boot
 
