@@ -74,7 +74,7 @@ setenv cec "false"
 setenv disable_vu7 "true"
 setenv max_freq_a55 "1908"
 #setenv max_freq_a55 "2100"
-setenv maxcpus "4"
+setenv maxcpus "8"
 
 # legacy kernel values from boot.ini
 
