@@ -97,23 +97,27 @@ if test -e ${devtype} ${devnum} ${prefix}zImage; then
 	if test "${console}" = "serial"; then setenv consoleargs "console=ttyS0,115200"; fi
 	if test "${bootlogo}" = "true"; then setenv consoleargs "bootsplash.bootfile=bootsplash.armbian ${consoleargs}"; fi
 
-	# setenv bootargs "root=${rootdev} rootwait rootfstype=${rootfstype} ${consoleargs} consoleblank=0 coherent_pool=2M loglevel=${verbosity} ${amlogic} no_console_suspend fsck.repair=yes net.ifnames=0 elevator=noop hdmimode=${hdmimode} cvbsmode=576cvbs max_freq_a55=${max_freq_a55} maxcpus=${maxcpus} voutmode=${voutmode} ${cmode} disablehpd=${disablehpd} cvbscable=${cvbscable} overscan=${overscan} ${hid_quirks} monitor_onoff=${monitor_onoff} ${cec_enable} sdrmode=${sdrmode}"
+	setenv bootargs "root=${rootdev} rootwait rootfstype=${rootfstype} ${consoleargs} consoleblank=0 coherent_pool=2M loglevel=${verbosity} ${amlogic} no_console_suspend fsck.repair=yes net.ifnames=0 elevator=noop hdmimode=${hdmimode} cvbsmode=576cvbs max_freq_a55=${max_freq_a55} maxcpus=${maxcpus} voutmode=${voutmode} ${cmode} disablehpd=${disablehpd} cvbscable=${cvbscable} overscan=${overscan} ${hid_quirks} monitor_onoff=${monitor_onoff} ${cec_enable} sdrmode=${sdrmode}"
      
 	load ${devtype} ${devnum} ${k_addr} boot/zImage
 	load ${devtype} ${devnum} ${dtb_loadaddr} boot/dtb/amlogic/meson-gxm-q200.dtb
 	load ${devtype} ${devnum} ${initrd_loadaddr} boot/uInitrd
 	fdt addr ${dtb_loadaddr}
 	unzip ${k_addr} ${loadaddr}
-# booti ${loadaddr} ${initrd_loadaddr} ${dtb_loadaddr}
-    setenv boot_start booti ${load_addr} ${initrd_loadaddr} ${dtb_mem_addr}
-    if fatload usb 0 ${initrd_loadaddr} uInitrd; then if fatload usb 0 ${load_addr} zImage; then if fatload usb 0 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
-    if fatload usb 1 ${initrd_loadaddr} uInitrd; then if fatload usb 1 ${load_addr} zImage; then if fatload usb 1 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
-    if fatload usb 2 ${initrd_loadaddr} uInitrd; then if fatload usb 2 ${load_addr} zImage; then if fatload usb 2 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
-    if fatload usb 3 ${initrd_loadaddr} uInitrd; then if fatload usb 3 ${load_addr} zImage; then if fatload usb 3 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
-    if fatload mmc 0 ${initrd_loadaddr} uInitrd; then if fatload mmc 0 ${load_addr} zImage; then if fatload mmc 0 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
-
+    booti ${loadaddr} ${initrd_loadaddr} ${dtb_loadaddr}
+    
 else
 	# modern kernel boot
+	setenv load_addr=0x11000000
+	setenv initrd_loadaddr=0x13000000
+    setenv condev="console=ttyAML0,115200n8 console=tty0 no_console_suspend consoleblank=0"
+	setenv bootargs="root=LABEL=ROOTFS rootflags=data=writeback rw ${condev} fsck.repair=yes net.ifnames=0 mac=${mac} init=/lib/systemd/systemd console=hvc0 console=ttyS0"
+    setenv boot_start booti ${load_addr} ${initrd_loadaddr} ${dtb_mem_addr}
+    if fatload usb 0 ${initrd_loadaddr} uInitrd; then if fatload usb 0 ${load_addr} Image; then if fatload usb 0 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
+    if fatload usb 1 ${initrd_loadaddr} uInitrd; then if fatload usb 1 ${load_addr} Image; then if fatload usb 1 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
+    if fatload usb 2 ${initrd_loadaddr} uInitrd; then if fatload usb 2 ${load_addr} Image; then if fatload usb 2 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
+    if fatload usb 3 ${initrd_loadaddr} uInitrd; then if fatload usb 3 ${load_addr} Image; then if fatload usb 3 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
+    if fatload mmc 0 ${initrd_loadaddr} uInitrd; then if fatload mmc 0 ${load_addr} Image; then if fatload mmc 0 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
 
 	if test "${console}" = "serial"; then setenv consoleargs "console=ttyAML0,115200"; fi
 	if test "${console}" = "display" || test "${console}" = "both"; then setenv consoleargs "console=ttyAML0,115200 console=tty1"; fi

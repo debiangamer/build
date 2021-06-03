@@ -116,8 +116,8 @@ compile_uboot()
 {
 	# not optimal, but extra cleaning before overlayfs_wrapper should keep sources directory clean
 	if [[ $CLEAN_LEVEL == *make* ]]; then
-	#	display_alert "Cleaning" "$BOOTSOURCEDIR" "info"
-	#	(cd "${SRC}/cache/sources/${BOOTSOURCEDIR}"; make clean > /dev/null 2>&1)
+		display_alert "Cleaning" "$BOOTSOURCEDIR" "info"
+		(cd "${SRC}/cache/sources/${BOOTSOURCEDIR}"; make clean > /dev/null 2>&1)
 	fi
 
 	if [[ $USE_OVERLAYFS == yes ]]; then
@@ -324,8 +324,8 @@ compile_uboot()
 compile_kernel()
 {
 	if [[ $CLEAN_LEVEL == *make* ]]; then
-	#	display_alert "Cleaning" "$LINUXSOURCEDIR" "info"
-	#	(cd "${SRC}/cache/sources/${LINUXSOURCEDIR}"; make ARCH="${ARCHITECTURE}" clean >/dev/null 2>&1)
+		display_alert "Cleaning" "$LINUXSOURCEDIR" "info"
+		(cd "${SRC}/cache/sources/${LINUXSOURCEDIR}"; make ARCH="${ARCHITECTURE}" clean >/dev/null 2>&1)
 	fi
 
 	if [[ $USE_OVERLAYFS == yes ]]; then
