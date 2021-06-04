@@ -341,6 +341,16 @@ if [[ -f /root/.not_logged_in_yet && -n $(tty) ]]; then
 		printf "\nYou selected \e[0;91mZSH\x1B[0m as your default shell. If you want to use it right away, please logout and login! \n\n"
 	fi
 
+	cat <<-EOF > /home/"$RealUserName"/.profile
+	if [ ! -e $HOME/.firstboot ]  
+		then  
+			systemctl --user daemon-reload
+			systemctl --user --now enable pipewire 
+			systemctl --user --now enable pipewire-pulse
+			touch $HOME/.firstboot
+	fi
+	EOF
+
 	# check whether desktop environment has to be considered
 	if [ -n "$desktop_lightdm" ] && [ -n "$RealName" ] ; then
 
