@@ -354,12 +354,12 @@ if [[ -f /root/.not_logged_in_yet && -n $(tty) ]]; then
 			EOF
 
 			cat <<-EOF > /home/"$RealUserName"/.profile
-			if [ ! -e $HOME/.firstboot ]  
+			if [ ! -e /home/"$RealUserName"/.firstboot ]  
 				then  
 					systemctl --user daemon-reload
 					systemctl --user --now enable pipewire 
 					systemctl --user --now enable pipewire-pulse
-					touch $HOME/.firstboot
+					touch /home/"$RealUserName"/.firstboot
 			fi
 			EOF
 

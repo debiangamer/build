@@ -1,0 +1,13 @@
+--- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c	2021-06-04 21:45:03.557268102 +0300
++++ b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c	2021-06-04 21:45:40.975037207 +0300
+@@ -85,8 +85,8 @@
+ 
+ 	mutex_unlock(&pfdev->shrinker_lock);
+ 
+-	if (freed > 0)
+-		pr_info_ratelimited("Purging %lu bytes\n", freed << PAGE_SHIFT);
++	// if (freed > 0)
++		// pr_info_ratelimited("Purging %lu bytes\n", freed << PAGE_SHIFT);
+ 
+ 	return freed;
+ }
