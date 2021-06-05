@@ -158,14 +158,16 @@ create_sources_list()
 	deb http://${DEBIAN_MIRROR} $release main contrib non-free
 	#deb-src http://${DEBIAN_MIRROR} $release main contrib non-free
 
-	deb http://${DEBIAN_MIRROR} ${release}-updates main contrib non-free
+	#deb http://${DEBIAN_MIRROR} ${release}-updates main contrib non-free
 	#deb-src http://${DEBIAN_MIRROR} ${release}-updates main contrib non-free
 
-	deb http://${DEBIAN_MIRROR} ${release}-backports main contrib non-free
+	#deb http://${DEBIAN_MIRROR} ${release}-backports main contrib non-free
 	#deb-src http://${DEBIAN_MIRROR} ${release}-backports main contrib non-free
 
-	deb http://${DEBIAN_SECURTY} ${release}/updates main contrib non-free
+	#deb http://${DEBIAN_SECURTY} ${release}/updates main contrib non-free
 	#deb-src http://${DEBIAN_SECURTY} ${release}/updates main contrib non-free
+
+	deb http://ppa.launchpad.net/oibaf/graphics-drivers/ubuntu focal main
 	EOF
 	;;
 
