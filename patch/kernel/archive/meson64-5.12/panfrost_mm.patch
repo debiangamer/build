@@ -1,0 +1,20 @@
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c	2021-06-05 06:17:11.811941047 +0300
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c	2021-06-05 08:38:35.227371324 +0300
+@@ -660,7 +660,7 @@
+ 		ret = -1;
+ 		if ((status & mask) == BIT(as) && (exception_type & 0xF8) == 0xC0)
+ 			ret = panfrost_mmu_map_fault_addr(pfdev, as, addr);
+-
++#if 0
+ 		if (ret)
+ 			/* terminal fault, print info about the fault */
+ 			dev_err(pfdev->dev,
+@@ -678,7 +678,7 @@
+ 				exception_type, panfrost_exception_name(pfdev, exception_type),
+ 				access_type, access_type_name(pfdev, fault_status),
+ 				source_id);
+-
++#endif
+ 		status &= ~mask;
+ 
+ 		/* If we received new MMU interrupts, process them before returning. */
