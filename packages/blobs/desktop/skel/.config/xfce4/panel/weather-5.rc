@@ -1,0 +1,27 @@
+loc_name=Tallinna, Kuressaare linn
+lat=58.262078
+lon=22.506330
+msl=9
+timezone=Europe/Tallinn
+offset=+03:00
+cache_file_max_age=172800
+power_saving=true
+units_temperature=0
+units_pressure=0
+units_windspeed=2
+units_precipitation=0
+units_altitude=0
+model_apparent_temperature=0
+round=true
+single_row=true
+tooltip_style=1
+forecast_layout=1
+forecast_days=5
+scrollbox_animate=true
+theme_dir=/usr/share/xfce4/weather/icons/liquid
+show_scrollbox=true
+scrollbox_lines=1
+scrollbox_color=rgba(0,0,0,0)
+scrollbox_use_color=false
+label0=3
+
