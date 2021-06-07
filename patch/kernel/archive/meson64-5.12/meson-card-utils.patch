@@ -1,10 +1,18 @@
 --- ../build/cache/sources/linux-mainline/linux-5.12.y/sound/soc/meson/meson-card-utils.c	2021-06-07 21:22:25.667562384 +0300
-+++ ./meson-card-utils.c	2021-06-07 21:30:22.497554906 +0300
++++ ./meson-card-utils.c	2021-06-07 22:02:47.433011725 +0300
 @@ -165,6 +165,7 @@
  		ret = meson_card_parse_dai(card, np, &codec->of_node,
  					   &codec->dai_name);
  		if (ret) {
 +			dev_err(card->dev, "error parsing dai %pOFn link name\n", np);
+ 			of_node_put(np);
+ 			return ret;
+ 		}
+@@ -231,6 +232,7 @@
+ 	for_each_child_of_node(node, np) {
+ 		ret = priv->match_data->add_link(card, np, &i);
+ 		if (ret) {
++			dev_err(card->dev, "error adding link %pOFn link name\n", np);
  			of_node_put(np);
  			return ret;
  		}
