@@ -12,6 +12,19 @@
  	return ret;
  }
 
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c	2021-06-08 10:15:05.698385437 +0300
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c	2021-06-08 19:09:00.950775065 +0300
+@@ -292,8 +292,8 @@
+ 		prot |= IOMMU_NOEXEC;
+ 
+ 	sgt = drm_gem_shmem_get_pages_sgt(obj);
+-	if (WARN_ON(IS_ERR(sgt)))
+-		return PTR_ERR(sgt);
++	//if (WARN_ON(IS_ERR(sgt)))
++	//	return PTR_ERR(sgt);
+ 
+ 	mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_SHIFT,
+ 		   prot, sgt);
 
 --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c	2021-06-05 06:17:11.811941047 +0300
 +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c	2021-06-05 08:38:35.227371324 +0300

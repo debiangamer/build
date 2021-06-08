@@ -381,7 +381,7 @@ install_common()
 	chroot "${SDCARD}" /bin/bash -c "systemctl --no-reload enable armbian-ramlog.service >/dev/null 2>&1"
 	chroot "${SDCARD}" /bin/bash -c "systemctl --no-reload enable armbian-resize-filesystem.service >/dev/null 2>&1"
 	chroot "${SDCARD}" /bin/bash -c "systemctl --no-reload enable armbian-hardware-monitor.service >/dev/null 2>&1"
-	chroot "${SDCARD}" /bin/bash -c "journalctl --vacuum-size=50M >/dev/null 2>&1"
+	chroot "${SDCARD}" /bin/bash -c "journalctl --vacuum-size=20M >/dev/null 2>&1"
 	# copy "first run automated config, optional user configured"
  	cp "${SRC}"/packages/bsp/armbian_first_run.txt.template "${SDCARD}"/boot/armbian_first_run.txt.template
 
