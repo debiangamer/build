@@ -204,6 +204,8 @@ create_sources_list()
 	cp "${SRC}"/config/armbian.key "${SDCARD}"
 	chroot "${SDCARD}" /bin/bash -c "cat armbian.key | apt-key add - > /dev/null 2>&1"
 	rm "${SDCARD}"/armbian.key
+
+	cp "${SRC}"/packages/bsp/launchpad.asc "${SDCARD}"/etc/apt/trusted.gpg.d/
 }
 
 
