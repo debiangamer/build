@@ -1,5 +1,5 @@
 xserver-xorg xserver-xorg-video-fbdev gvfs-backends gvfs-fuse xfonts-base xinit x11-xserver-utils xfce4 lxtask xfce4-terminal 
 thunar-volman gtk2-engines gtk2-engines-murrine gtk2-engines-pixbuf libgtk2.0-bi gnome-keyring 
-gcr libgck-1-0 p11-kit pavucontrol pipewire pipewire-audio-client-libraries bluez bluez-tools libspa-0.2-bluetooth blueman libpam-gnome-keyring 
+gcr libgck-1-0 p11-kit pavucontrol bluez bluez-tools  blueman libpam-gnome-keyring 
 libgl1-mesa-dri policykit-1 profile-sync-daemon numix-gtk-theme synaptic lightdm numix-gtk-theme dbus-x11 dbus-x11
  policykit-1 profile-sync-daemon software-properties-common cifs-utils xfce4-screenshooter gdebi terminator
