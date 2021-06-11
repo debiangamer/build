@@ -496,9 +496,9 @@ compile_kernel()
 	echo -e "\n\t== deb packages: image, headers, firmware, dtb ==\n" >> "${DEST}"/debug/compilation.log
 	eval CCACHE_BASEDIR="$(pwd)" env PATH="${toolchain}:${PATH}" \
 		'make $CTHREADS $kernel_packing \
-		KDEB_PKGVERSION=$REVISION \
-		BRANCH=$BRANCH \
-		LOCALVERSION="-${LINUXFAMILY}" \
+		# KDEB_PKGVERSION=$REVISION \
+		# BRANCH=$BRANCH \
+		# LOCALVERSION="-${LINUXFAMILY}" \
 		KBUILD_DEBARCH=$ARCH \
 		ARCH=$ARCHITECTURE \
 		DEBFULLNAME="$MAINTAINER" \
