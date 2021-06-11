@@ -108,17 +108,6 @@ if test -e ${devtype} ${devnum} ${prefix}zImage; then
     
 else
 	# modern kernel boot
-	setenv load_addr=0x11000000
-	setenv initrd_loadaddr=0x13000000
-    setenv condev="console=ttyAML0,115200n8 console=tty0 no_console_suspend consoleblank=0"
-	setenv bootargs="root=LABEL=ROOTFS rootflags=data=writeback rw ${condev} fsck.repair=yes net.ifnames=0 mac=${mac} init=/lib/systemd/systemd console=hvc0 console=ttyS0"
-    setenv boot_start booti ${load_addr} ${initrd_loadaddr} ${dtb_mem_addr}
-    if fatload usb 0 ${initrd_loadaddr} uInitrd; then if fatload usb 0 ${load_addr} Image; then if fatload usb 0 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
-    if fatload usb 1 ${initrd_loadaddr} uInitrd; then if fatload usb 1 ${load_addr} Image; then if fatload usb 1 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
-    if fatload usb 2 ${initrd_loadaddr} uInitrd; then if fatload usb 2 ${load_addr} Image; then if fatload usb 2 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
-    if fatload usb 3 ${initrd_loadaddr} uInitrd; then if fatload usb 3 ${load_addr} Image; then if fatload usb 3 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
-    if fatload mmc 0 ${initrd_loadaddr} uInitrd; then if fatload mmc 0 ${load_addr} Image; then if fatload mmc 0 ${dtb_mem_addr} dtb.img; then run boot_start; else store dtb read ${dtb_mem_addr}; run boot_start;fi;fi;fi;
-
 	if test "${console}" = "serial"; then setenv consoleargs "console=ttyAML0,115200"; fi
 	if test "${console}" = "display" || test "${console}" = "both"; then setenv consoleargs "console=ttyAML0,115200 console=tty1"; fi
 	if test "${console}" = "serial"; then setenv consoleargs "console=ttyAML0,115200"; fi
@@ -128,7 +117,7 @@ else
 	if test "${docker_optimizations}" = "on"; then setenv bootargs "${bootargs} cgroup_enable=memory swapaccount=1"; fi
 
 	load ${devtype} ${devnum} ${ramdisk_addr_r} ${prefix}uInitrd
-	load ${devtype} ${devnum} ${kernel_addr_r} ${prefix}Image
+	load ${devtype} ${devnum} ${kernel_addr_r} ${prefix}uImage
 	load ${devtype} ${devnum} ${fdt_addr_r} ${prefix}dtb/${fdtfile}
 	fdt addr ${fdt_addr_r}
 	fdt resize 65536
@@ -161,8 +150,8 @@ else
 		fi
 	fi
 
-	booti ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}
+	bootm ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}
 fi
 
 # Recompile with:
-# mkimage -C none -A arm -T script -d /boot/boot.cmd /boot/boot.scr
+# mkimage -C none -A arm -T script -d ./boot.cmd ./boot.scr
