@@ -661,7 +661,7 @@ prepare_partitions()
 update_initramfs()
 {
 	local chroot_target=$1
-	update_initramfs_cmd="update-initramfs -uv -k ${VER}-${LINUXFAMILY"
+	update_initramfs_cmd="update-initramfs -uv -k ${VER}-${LINUXFAMILY}"
 	display_alert "Updating initramfs..." "$update_initramfs_cmd" ""
 	cp /usr/bin/$QEMU_BINARY $chroot_target/usr/bin/
 	mount_chroot "$chroot_target/"
