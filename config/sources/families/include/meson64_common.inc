@@ -33,7 +33,7 @@ case $BRANCH in
         ;;
 
         edge)
-		KERNELBRANCH='branch:stable'
+		KERNELBRANCH='branch:linux-5.12.y'
 		KERNELPATCHDIR='meson64-edge'
         ;;
 
