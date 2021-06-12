@@ -1,0 +1,10 @@
+--- a/scripts/Makefile.lib	2021-06-12 08:49:04.101412195 +0300
++++ b/scripts/Makefile.lib	2021-06-12 08:52:03.428262890 +0300
+@@ -326,6 +326,7 @@
+ endif
+ 
+ DTC_FLAGS += $(DTC_FLAGS_$(basetarget))
++DTC_FLAGS += -f
+ 
+ # Set -@ if the target is a base DTB that overlay is applied onto
+ DTC_FLAGS += $(if $(filter $(patsubst $(obj)/%,%,$@), $(base-dtb-y)), -@)
