@@ -83,7 +83,7 @@ case $MAINLINE_MIRROR in
 		MAINLINE_FIRMWARE_SOURCE='https://mirrors.bfsu.edu.cn/git/linux-firmware.git'
 		;;
 	*)
-		MAINLINE_KERNEL_SOURCE=΅https://github.com/debiangamer/linux-5.12.9.git'
+		MAINLINE_KERNEL_SOURCE='https://github.com/debiangamer/linux-5.12.9.git'
 		#MAINLINE_KERNEL_SOURCE='git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git'
 		#MAINLINE_KERNEL_SOURCE='git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git'
 		MAINLINE_FIRMWARE_SOURCE='git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git'
