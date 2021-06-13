@@ -360,6 +360,9 @@ if [[ -f /root/.not_logged_in_yet && -n $(tty) ]]; then
 					systemctl --user --now enable pipewire 
 					systemctl --user --now enable pipewire-pulse
 					systemctl --user --now enable pipewire-media-session
+
+					gsettings set net.connman.gtk launch-to-tray true
+					gsettings set net.connman.gtk status-icon-enabled true
 					touch /home/"$RealUserName"/.firstboot
 			fi
 			EOF
