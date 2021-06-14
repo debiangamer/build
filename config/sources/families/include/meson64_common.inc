@@ -27,15 +27,16 @@ case $BRANCH in
 		KERNELDIR='linux-odroid'
 	;;
 
-        current)
-                KERNELBRANCH='branch:linux-5.10.y'
-                KERNELPATCHDIR='meson64-current'
-        ;;
+	current)
+		KERNELSOURCE='https://github.com/torvalds/linux.git'
+		KERNELBRANCH='branch:master'
+		KERNELPATCHDIR='meson64-edge'
+	;;
 
-        edge)
+	edge)
 		KERNELBRANCH='branch:main'
 		KERNELPATCHDIR='meson64-edge'
-        ;;
+	;;
 
 esac
 
