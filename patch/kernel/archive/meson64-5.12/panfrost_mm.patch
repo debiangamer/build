@@ -1,0 +1,40 @@
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c	2021-06-14 14:14:59.289757278 +0300
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c	2021-06-15 21:31:46.147540880 +0300
+@@ -36,8 +36,8 @@
+ 	ret = readl_relaxed_poll_timeout_atomic(pfdev->iomem + AS_STATUS(as_nr),
+ 		val, !(val & AS_STATUS_AS_ACTIVE), 10, 1000);
+ 
+-	if (ret)
+-		dev_err(pfdev->dev, "AS_ACTIVE bit stuck\n");
++	//if (ret)
++	//	dev_err(pfdev->dev, "AS_ACTIVE bit stuck\n");
+ 
+ 	return ret;
+ }
+@@ -285,7 +285,7 @@
+ 	struct sg_table *sgt;
+ 	int prot = IOMMU_READ | IOMMU_WRITE;
+ 
+-	if (WARN_ON(mapping->active))
++	if (mapping->active)
+ 		return 0;
+ 
+ 	if (bo->noexec)
+@@ -662,7 +662,7 @@
+ 		ret = -1;
+ 		if ((status & mask) == BIT(i) && (exception_type & 0xF8) == 0xC0)
+ 			ret = panfrost_mmu_map_fault_addr(pfdev, i, addr);
+-
++#if 0
+ 		if (ret)
+ 			/* terminal fault, print info about the fault */
+ 			dev_err(pfdev->dev,
+@@ -680,7 +680,7 @@
+ 				exception_type, panfrost_exception_name(pfdev, exception_type),
+ 				access_type, access_type_name(pfdev, fault_status),
+ 				source_id);
+-
++#endif
+ 		status &= ~mask;
+ 	}
+ 
