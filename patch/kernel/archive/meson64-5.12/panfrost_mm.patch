@@ -20,6 +20,15 @@
  		return 0;
  
  	if (bo->noexec)
+@@ -292,7 +292,7 @@
+ 		prot |= IOMMU_NOEXEC;
+ 
+ 	sgt = drm_gem_shmem_get_pages_sgt(obj);
+-	if (WARN_ON(IS_ERR(sgt)))
++	if (IS_ERR(sgt))
+ 		return PTR_ERR(sgt);
+ 
+ 	mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_SHIFT,
 @@ -662,7 +662,7 @@
  		ret = -1;
  		if ((status & mask) == BIT(i) && (exception_type & 0xF8) == 0xC0)
