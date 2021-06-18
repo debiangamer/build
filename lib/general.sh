@@ -1016,7 +1016,7 @@ prepare_host()
   if [[ $(dpkg --print-architecture) == amd64 ]]; then
 
 	local hostdeps="wget ca-certificates device-tree-compiler pv bc lzop zip binfmt-support build-essential ccache debootstrap ntpdate \
-	gawk gcc-arm-linux-gnueabihf qemu-user-static u-boot-tools uuid-dev zlib1g-dev unzip libusb-1.0-0-dev fakeroot \
+	gawk gcc-arm-linux-gnueabihf gcc-aarch64-linux-gnu qemu-user-static u-boot-tools uuid-dev zlib1g-dev unzip libusb-1.0-0-dev fakeroot \
 	parted pkg-config libncurses5-dev whiptail debian-keyring debian-archive-keyring f2fs-tools libfile-fcntllock-perl rsync libssl-dev \
 	nfs-kernel-server btrfs-progs ncurses-term p7zip-full kmod dosfstools libc6-dev-armhf-cross imagemagick \
 	curl patchutils liblz4-tool libpython2.7-dev linux-base swig aptly acl python3-dev python3-distutils \
@@ -1173,39 +1173,38 @@ prepare_host()
 	display_alert "Checking for external GCC compilers" "" "info"
 	# download external Linaro compiler and missing special dependencies since they are needed for certain sources
 
-	local toolchains=(
-		"${ARMBIAN_MIRROR}/_toolchain/gcc-linaro-aarch64-none-elf-4.8-2013.11_linux.tar.xz"
-		"${ARMBIAN_MIRROR}/_toolchain/gcc-linaro-arm-none-eabi-4.8-2014.04_linux.tar.xz"
-		"${ARMBIAN_MIRROR}/_toolchain/gcc-linaro-arm-linux-gnueabihf-4.8-2014.04_linux.tar.xz"
-		"${ARMBIAN_MIRROR}/_toolchain/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabi.tar.xz"
-		"${ARMBIAN_MIRROR}/_toolchain/gcc-linaro-7.4.1-2019.02-x86_64_aarch64-linux-gnu.tar.xz"
-		"${ARMBIAN_MIRROR}/_toolchains/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf.tar.xz"
-		"${ARMBIAN_MIRROR}/_toolchains/gcc-arm-8.3-2019.03-x86_64-aarch64-linux-gnu.tar.xz"
-		"${ARMBIAN_MIRROR}/_toolchain/gcc-arm-9.2-2019.12-x86_64-arm-none-linux-gnueabihf.tar.xz"
-		"${ARMBIAN_MIRROR}/_toolchain/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz"
-		)
-
-	USE_TORRENT_STATUS=${USE_TORRENT}
-	USE_TORRENT="no"
-	for toolchain in ${toolchains[@]}; do
-		download_and_verify "_toolchain" "${toolchain##*/}"
-	done
-	USE_TORRENT=${USE_TORRENT_STATUS}
-
-	rm -rf "${SRC}"/cache/toolchain/*.tar.xz*
-	local existing_dirs=( $(ls -1 "${SRC}"/cache/toolchain) )
-	for dir in ${existing_dirs[@]}; do
-		local found=no
-		for toolchain in ${toolchains[@]}; do
-			local filename=${toolchain##*/}
-			local dirname=${filename//.tar.xz}
-			[[ $dir == $dirname ]] && found=yes
-		done
-		if [[ $found == no ]]; then
-			display_alert "Removing obsolete toolchain" "$dir"
-			rm -rf "${SRC}/cache/toolchain/${dir}"
-		fi
-	done
+#	local toolchains=(
+#		"${ARMBIAN_MIRROR}/_toolchain/gcc-linaro-aarch64-none-elf-4.8-2013.11_linux.tar.xz"
+#		"${ARMBIAN_MIRROR}/_toolchain/gcc-linaro-arm-none-eabi-4.8-2014.04_linux.tar.xz"
+#		"${ARMBIAN_MIRROR}/_toolchain/gcc-linaro-arm-linux-gnueabihf-4.8-2014.04_linux.tar.xz"
+#		"${ARMBIAN_MIRROR}/_toolchain/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabi.tar.xz"
+#		"${ARMBIAN_MIRROR}/_toolchain/gcc-linaro-7.4.1-2019.02-x86_64_aarch64-linux-gnu.tar.xz"
+#		"${ARMBIAN_MIRROR}/_toolchains/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf.tar.xz"
+#		"${ARMBIAN_MIRROR}/_toolchain/gcc-arm-9.2-2019.12-x86_64-arm-none-linux-gnueabihf.tar.xz"
+#		"${ARMBIAN_MIRROR}/_toolchain/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz"
+#		)
+#
+#	USE_TORRENT_STATUS=${USE_TORRENT}
+#	USE_TORRENT="no"
+#	for toolchain in ${toolchains[@]}; do
+#		download_and_verify "_toolchain" "${toolchain##*/}"
+#	done
+#	USE_TORRENT=${USE_TORRENT_STATUS}
+#
+#	rm -rf "${SRC}"/cache/toolchain/*.tar.xz*
+#	local existing_dirs=( $(ls -1 "${SRC}"/cache/toolchain) )
+#	for dir in ${existing_dirs[@]}; do
+#		local found=no
+#		for toolchain in ${toolchains[@]}; do
+#			local filename=${toolchain##*/}
+#			local dirname=${filename//.tar.xz}
+#			[[ $dir == $dirname ]] && found=yes
+#		done
+#		if [[ $found == no ]]; then
+#			display_alert "Removing obsolete toolchain" "$dir"
+#			rm -rf "${SRC}/cache/toolchain/${dir}"
+#		fi
+#	done
 
 	fi # check offline
 

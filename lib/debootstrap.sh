@@ -53,7 +53,7 @@ debootstrap_ng()
 	install_common
 
 	# install locally built packages
-	[[ $EXTERNAL_NEW == compile ]] && chroot_installpackages_local
+	# [[ $EXTERNAL_NEW == compile ]] && chroot_installpackages_local
 
 	# install from apt.armbian.com
 	[[ $EXTERNAL_NEW == prebuilt ]] && chroot_installpackages "yes"
