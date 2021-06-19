@@ -56,7 +56,7 @@ debootstrap_ng()
 	# [[ $EXTERNAL_NEW == compile ]] && chroot_installpackages_local
 
 	# install from apt.armbian.com
-	[[ $EXTERNAL_NEW == prebuilt ]] && chroot_installpackages "yes"
+	# [[ $EXTERNAL_NEW == prebuilt ]] && chroot_installpackages "yes"
 
 	# stage: user customization script
 	# NOTE: installing too many packages may fill tmpfs mount
