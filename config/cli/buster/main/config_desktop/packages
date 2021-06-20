@@ -1,4 +1,2 @@
-fbset iw wpasupplicant sudo
-wireless-regdb  console-setup unicode-data initramfs-tools 
-ca-certificates expect iptables automake  libwrap0-dev 
-libssl-dev libnl-3-dev libnl-genl-3-dev keyboard-configuration libcrack2 cracklib-runtime
+locales wpasupplicant sudo wireless-regdb  console-setup unicode-data initramfs-tools 
+ca-certificates expect keyboard-configuration libcrack2 cracklib-runtime

@@ -1,4 +1,3 @@
-locales gnupg ifupdown apt-utils ca-certificates bzip2 console-setup 
-cpio cron dbus init initramfs-tools iputils-ping isc-dhcp-client kmod less libpam-systemd 
-linux-base logrotate netbase netcat-openbsd systemd sudo ucf udev whiptail 
-wireless-regdb dmsetup rsync tzdata fdisk
+locales gnupg console-setup 
+cpio cron dbus init initramfs-tools  isc-dhcp-client kmod less libpam-systemd 
+linux-base logrotate netbase  systemd sudo ucf udev wireless-regdb

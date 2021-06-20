@@ -1,3 +1,1 @@
-bc fping fake-hwclock psmisc ntpdate parted dialog 
-ncurses-term sysfsutils toilet figlet u-boot-tools usbutils openssh-server nocache 
-debconf-utils python3-apt smartmontools 
+bc parted dialog ncurses-term sysfsutils toilet figlet u-boot-tools openssh-server nocache 
