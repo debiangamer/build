@@ -121,10 +121,9 @@ compile_uboot()
 	fi
 
 	if [[ $USE_OVERLAYFS == yes ]]; then
-		local ubootdir
 		ubootdir=$(overlayfs_wrapper "wrap" "$SRC/cache/sources/$BOOTSOURCEDIR" "u-boot_${LINUXFAMILY}_${BRANCH}")
 	else
-		local ubootdir="$SRC/cache/sources/$BOOTSOURCEDIR"
+		ubootdir="$SRC/cache/sources/$BOOTSOURCEDIR"
 	fi
 	cd "${ubootdir}" || exit
 
@@ -290,7 +289,7 @@ compile_uboot()
 
 	# set up control file
 	cat <<-EOF > "$uboottempdir/${uboot_name}/DEBIAN/control"
-	Package: linux-u-boot-${BOARD}-${BRANCH}
+	Package: linux-u-boot-$(grab_version  "$SRC/cache/sources/$BOOTSOURCEDIR")
 	Version: $REVISION
 	Architecture: $ARCH
 	Maintainer: $MAINTAINER <$MAINTAINERMAIL>
@@ -330,10 +329,9 @@ compile_kernel()
 	fi
 
 	if [[ $USE_OVERLAYFS == yes ]]; then
-		local kerneldir
 		kerneldir=$(overlayfs_wrapper "wrap" "$SRC/cache/sources/$LINUXSOURCEDIR" "kernel_${LINUXFAMILY}_${BRANCH}")
 	else
-		local kerneldir="$SRC/cache/sources/$LINUXSOURCEDIR"
+		kerneldir="$SRC/cache/sources/$LINUXSOURCEDIR"
 	fi
 	cd "${kerneldir}" || exit
 
@@ -361,7 +359,7 @@ compile_kernel()
 	local version
 	version=$(grab_version "$kerneldir")
 
-	display_alert "Compiling $BRANCH kernel" "$version" "info"
+	display_alert "Compiling kernel" "$version" "info"
 
 # build aarch64
   if [[ $(dpkg --print-architecture) == amd64 ]]; then
@@ -445,18 +443,18 @@ compile_kernel()
 		display_alert "Compressing sources for the linux-source package"
 		tar cp --directory="$kerneldir" --exclude='.git' --owner=root . \
 			| pv -p -b -r -s "$(du -sb "$kerneldir" --exclude=='.git' | cut -f1)" \
-			| pixz -4 > "${sources_pkg_dir}/usr/src/linux-source-${version}-${LINUXFAMILY}.tar.xz"
-		cp COPYING "${sources_pkg_dir}/usr/share/doc/linux-source-${version}-${LINUXFAMILY}/LICENSE"
+			| pixz -4 > "${sources_pkg_dir}/usr/src/linux-source-${version}.tar.xz"
+		cp COPYING "${sources_pkg_dir}/usr/share/doc/linux-source-${version}/LICENSE"
 
 	cat <<-EOF > "${sources_pkg_dir}"/DEBIAN/control
-	Package: linux-source-${version}-${BRANCH}-${LINUXFAMILY}
-	Version: ${version}-${BRANCH}-${LINUXFAMILY}+${REVISION}
+	Package: linux-source-${version}
+	Version: ${version}
 	Architecture: all
 	Maintainer: $MAINTAINER <$MAINTAINERMAIL>
 	Section: kernel
 	Priority: optional
 	Depends: binutils, coreutils
-	Provides: linux-source, linux-source-${version}-${LINUXFAMILY}
+	Provides: linux-source, linux-source-${version}
 	Recommends: gcc, make
 	Description: This package provides the source code for the Linux kernel $version
 	EOF
@@ -474,7 +472,6 @@ compile_kernel()
 		'make $CTHREADS ARCH=$ARCHITECTURE \
 		CROSS_COMPILE="$CCACHE $KERNEL_COMPILER" \
 		$SRC_LOADADDR \
-		LOCALVERSION="-$LINUXFAMILY" \
 		$KERNEL_IMAGE_TYPE modules dtbs 2>>$DEST/debug/compilation.log' \
 		${PROGRESS_LOG_TO_FILE:+' | tee -a $DEST/debug/compilation.log'} \
 		${OUTPUT_DIALOG:+' | dialog --backtitle "$backtitle" \
@@ -498,10 +495,8 @@ compile_kernel()
 	echo -e "\n\t== deb packages: image, headers, firmware, dtb ==\n" >> "${DEST}"/debug/compilation.log
 	eval CCACHE_BASEDIR="$(pwd)" env PATH="${toolchain}:${PATH}" \
 		'make $CTHREADS $kernel_packing \
-		KDEB_PKGVERSION=$REVISION \
-		BRANCH=$BRANCH \
-		LOCALVERSION="-${LINUXFAMILY}" \
 		KBUILD_DEBARCH=$ARCH \
+		KERNELRELEASE="$version" \
 		ARCH=$ARCHITECTURE \
 		DEBFULLNAME="$MAINTAINER" \
 		DEBEMAIL="$MAINTAINERMAIL" \
@@ -672,8 +667,8 @@ compile_armbian-config()
 	display_alert "Building deb" "armbian-config" "info"
 
 	fetch_from_repo "https://github.com/armbian/config" "armbian-config" "branch:master"
-	fetch_from_repo "https://github.com/dylanaraps/neofetch" "neofetch" "tag:7.1.0"
-	fetch_from_repo "https://github.com/complexorganizations/wireguard-manager" "wireguard-manager" "tag:1.0.11"
+	# fetch_from_repo "https://github.com/dylanaraps/neofetch" "neofetch" "tag:7.1.0"
+	# fetch_from_repo "https://github.com/complexorganizations/wireguard-manager" "wireguard-manager" "tag:1.0.11"
 
 	mkdir -p "${tmp_dir}/${armbian_config_dir}"/{DEBIAN,usr/bin/,usr/sbin/,usr/lib/armbian-config/}
 
@@ -693,11 +688,11 @@ compile_armbian-config()
 	Description: Armbian configuration utility
 	END
 
-	install -m 755 "${SRC}"/cache/sources/neofetch/neofetch "${tmp_dir}/${armbian_config_dir}"/usr/bin/neofetch
+	# install -m 755 "${SRC}"/cache/sources/neofetch/neofetch "${tmp_dir}/${armbian_config_dir}"/usr/bin/neofetch
 	cd "${tmp_dir}/${armbian_config_dir}"/usr/bin/
-	process_patch_file "${SRC}/patch/misc/add-armbian-neofetch.patch" "applying"
+	# process_patch_file "${SRC}/patch/misc/add-armbian-neofetch.patch" "applying"
 
-	install -m 755 "${SRC}"/cache/sources/wireguard-manager/wireguard-manager.sh "${tmp_dir}/${armbian_config_dir}"/usr/bin/wireguard-manager
+	# install -m 755 "${SRC}"/cache/sources/wireguard-manager/wireguard-manager.sh "${tmp_dir}/${armbian_config_dir}"/usr/bin/wireguard-manager
 	install -m 755 "${SRC}"/cache/sources/armbian-config/scripts/tv_grab_file "${tmp_dir}/${armbian_config_dir}"/usr/bin/tv_grab_file
 	install -m 755 "${SRC}"/cache/sources/armbian-config/debian-config "${tmp_dir}/${armbian_config_dir}"/usr/sbin/armbian-config
 	install -m 644 "${SRC}"/cache/sources/armbian-config/debian-config-jobs "${tmp_dir}/${armbian_config_dir}"/usr/lib/armbian-config/jobs.sh

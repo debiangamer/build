@@ -661,7 +661,7 @@ prepare_partitions()
 update_initramfs()
 {
 	local chroot_target=$1
-	update_initramfs_cmd="update-initramfs -uv -k ${VER}-${LINUXFAMILY}"
+	update_initramfs_cmd="update-initramfs -uv -k ${VER}"
 	display_alert "Updating initramfs..." "$update_initramfs_cmd" ""
 	cp /usr/bin/$QEMU_BINARY $chroot_target/usr/bin/
 	mount_chroot "$chroot_target/"
@@ -684,8 +684,8 @@ update_initramfs()
 create_image()
 {
 	# stage: create file name
-	local version="${VENDOR}_${REVISION}_${BOARD^}_${RELEASE}_${BRANCH}_${VER/-$LINUXFAMILY/}${DESKTOP_ENVIRONMENT:+_$DESKTOP_ENVIRONMENT}"
-	[[ $BUILD_DESKTOP == yes ]] && version=${version}_desktop
+	local version="${BOARD^}_${VENDOR}_${RELEASE}_${VER/-$LINUXFAMILY/}${DESKTOP_ENVIRONMENT:+_$DESKTOP_ENVIRONMENT}"
+	#[[ $BUILD_DESKTOP == yes ]] && version=${version}_desktop
 	[[ $BUILD_MINIMAL == yes ]] && version=${version}_minimal
 	[[ $ROOTFS_TYPE == nfs ]] && version=${version}_nfsboot
 
@@ -798,7 +798,7 @@ create_image()
 			fi
 		fi
 
-		fingerprint_image "${FINALDEST}/${version}.img${compression_type}.txt" "${version}"
+		# fingerprint_image "${FINALDEST}/${version}.img${compression_type}.txt" "${version}"
 
 		if [[ $COMPRESS_OUTPUTIMAGE == *7z* ]]; then
 			display_alert "Compressing" "${FINALDEST}/${version}.7z" "info"

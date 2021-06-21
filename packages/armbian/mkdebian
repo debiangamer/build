@@ -91,13 +91,13 @@ if [ -n "$KDEB_PKGVERSION" ]; then
 	revision=${packageversion##*-}
 else
 	revision=$(cat .version 2>/dev/null||echo 1)
-	packageversion=$version-$revision
+	packageversion=$revision
 fi
 sourcename=$KDEB_SOURCENAME
-packagename=linux-image-"$BRANCH$LOCALVERSION"
-kernel_headers_packagename=linux-headers-"$BRANCH$LOCALVERSION"
+packagename=linux-image-$version
+kernel_headers_packagename=linux-headers-$version
 libc_headers_packagename=linux-libc-dev
-dtb_packagename=linux-dtb-"$BRANCH$LOCALVERSION"
+dtb_packagename=linux-dtb-$version
 dbg_packagename=$packagename-dbg
 
 if [ "$ARCH" = "um" ] ; then
@@ -182,17 +182,17 @@ Homepage: https://www.kernel.org/
 
 Package: $packagename
 Architecture: $debarch
-Provides: linux-image, linux-image-armbian, armbian-$BRANCH
-Description: Linux kernel, armbian version $version $BRANCH
+Provides: linux-image
+Description: Linux kernel
  This package contains the Linux kernel, modules and corresponding other
  files, version: $version.
 
 Package: $kernel_headers_packagename
 Section: devel
 Architecture: $debarch
-Provides: linux-headers, linux-headers-armbian, armbian-$BRANCH
+Provides: linux-headers
 Depends: make, gcc, libc6-dev, bison, flex, libssl-dev
-Description: Linux kernel headers for $version on $debarch $BRANCH
+Description: Linux kernel headers for $version on $debarch
  This package provides kernel header files for $version on $debarch
  .
  This is useful for people who need to build external modules
@@ -210,8 +210,8 @@ Multi-Arch: same
 
 Package: $dtb_packagename
 Architecture: $debarch
-Provides: linux-dtb, linux-dtb-armbian, armbian-$BRANCH
-Description: Armbian Linux DTB, version $version $BRANCH
+Provides: linux-dtb
+Description: Armbian Linux DTB, version $version
  This package contains device blobs from the Linux kernel, version $version
 EOF
 

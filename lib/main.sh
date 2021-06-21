@@ -395,11 +395,11 @@ LINUXSOURCEDIR="${KERNELDIR}/$(branch2dir "${KERNELBRANCH}")"
 BSP_CLI_PACKAGE_NAME="armbian-bsp-cli-${BOARD}"
 BSP_CLI_PACKAGE_FULLNAME="${BSP_CLI_PACKAGE_NAME}_${REVISION}_${ARCH}"
 
-CHOSEN_UBOOT=linux-u-boot-${BOARD}-${BRANCH}
-CHOSEN_KERNEL=linux-image-${BRANCH}-${LINUXFAMILY}
+CHOSEN_UBOOT=linux-u-boot-$(grab_version "$SRC/cache/sources/$BOOTSOURCEDIR")
+CHOSEN_KERNEL=linux-image-$(grab_version "$SRC/cache/sources/$LINUXSOURCEDIR")
 CHOSEN_ROOTFS=${BSP_CLI_PACKAGE_NAME}
-CHOSEN_DESKTOP=armbian-${RELEASE}-desktop-${DESKTOP_ENVIRONMENT}
-CHOSEN_KSRC=linux-source-${BRANCH}-${LINUXFAMILY}
+CHOSEN_DESKTOP=desktop-${DESKTOP_ENVIRONMENT}
+CHOSEN_KSRC=linux-source-$(grab_version "$SRC/cache/sources/$LINUXSOURCEDIR")
 
 do_default() {
 

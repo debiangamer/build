@@ -16,3 +16,4 @@ UBOOT_USE_GCC='10'
 PACKAGE_LIST_EXCLUDE="gcc-10-base,gcc-10-base:armhf,gcc-11-base,gcc-11-base:armhf,gcc-9-base,gcc-9-base:armhf"
 AUFS="no"
 WIREGUARD="no"
+VENDOR="Debian"

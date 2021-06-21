@@ -312,7 +312,7 @@ fi
 	[[ $(type -t family_tweaks_bsp) == function ]] && family_tweaks_bsp
 
 	# add some summary to the image
-	fingerprint_image "${destination}/etc/armbian.txt"
+	# fingerprint_image "${destination}/etc/armbian.txt"
 
 	# fixing permissions (basic), reference: dh_fixperms
 	find "${destination}" -print0 2>/dev/null | xargs -0r chown --no-dereference 0:0
